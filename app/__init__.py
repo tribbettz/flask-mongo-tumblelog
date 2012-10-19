@@ -3,7 +3,9 @@ from flask.ext.mongoengine import MongoEngine
 
 def register_blueprints(app):
 	from app.views import posts
+	from app.admin import admin
 	app.register_blueprint(posts)
+	app.register_blueprint(admin)
 
 app = Flask(__name__)
 app.config["MONGODB_DB"] = 'my_tumble_log'

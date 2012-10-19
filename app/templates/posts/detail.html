@@ -1,3 +1,4 @@
+{% import "_forms.html" as forms %}
 {% extends "base.html" %}
 
 {% block page_header %}
@@ -15,7 +16,16 @@
     {% for comment in post.comments %}
        <p>{{ comment.body }}</p>
        <p><strong>{{ comment.author }}</strong> <small>on {{ comment.created_at.strftime('%H:%M %Y-%m-%d') }}</small></p>
-      {{ comment.text }}
+      <hr>
     {% endfor %}
   {% endif %}
+  <hr>
+  <h2>Add a comment</h2>
+  <form action="." method="post">
+	{{ forms.render(form) }}
+	<div class="actions">
+		<input type="submit" class="btn primary" value="Comment">
+		<input type="reset" class="btn" value="Cancel">
+	</div>
+  </form>
 {% endblock %}
