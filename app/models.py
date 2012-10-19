@@ -6,7 +6,6 @@ class Post(db.Document):
 	created_at		= db.DateTimeField(default=datetime.datetime.now, required=True)
 	title			= db.StringField(max_length=255, required=True)
 	slug			= db.StringField(max_length=255, required=True)
-	body			= db.StringField(required=True)
 	comments		= db.ListField(db.EmbeddedDocumentField('Comment'))
 	
 	def get_absolute_url(self):
@@ -15,11 +14,31 @@ class Post(db.Document):
 	def __unicode__(self):
 		return self.title
 		
+	@property
+	def post_type(self):
+		return self.__class__.__name__
+		
 	meta = {
 		'allow_inheritance': True,
 		'indexes': ['-created_at', 'slug'],
 		'ordering': ['-created_at']
 	}
+	
+class BlogPost(Post):
+    body = db.StringField(required=True)
+
+
+class Video(Post):
+    embed_code = db.StringField(required=True)
+
+
+class Image(Post):
+    image_url = db.StringField(required=True, max_length=255)
+
+
+class Quote(Post):
+    body = db.StringField(required=True)
+    author = db.StringField(verbose_name="Author Name", required=True, max_length=255)
 	
 class Comment(db.EmbeddedDocument):
 	created_at		= db.DateTimeField(default=datetime.datetime.now, required=True)

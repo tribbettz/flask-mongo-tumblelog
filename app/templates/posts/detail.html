@@ -8,7 +8,20 @@
 {% endblock %}
 
 {% block content %}
-  <p>{{ post.body }}<p>
+  {% if post.body %}
+  {% if post.post_type == 'Quote' %}
+    <blockquote>{{ post.body }}</blockquote>
+    <p>{{ post.author }}</p>
+  {% else %}
+    <p>{{ post.body }}</p>
+  {% endif %}
+{% endif %}
+{% if post.embed_code %}
+  {{ post.embed_code|safe() }}
+{% endif %}
+{% if post.image_url %}
+  <p><img src="{{ post.image_url }}" /><p>
+{% endif %}
   <p>{{ post.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
   <hr>
   <h2>Comments</h2>
